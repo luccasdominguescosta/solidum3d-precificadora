@@ -2,310 +2,57 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Precificadora Solidum3D</title>
   <meta name="theme-color" content="#0A0A0A" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Precificadora" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
-
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" href="icon-192.png" />
   <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; background: #0A0A0A; color: #F5F0E8; font-family: 'DM Sans', sans-serif; }
-    button, input { font-family: inherit; }
-    .app { min-height: 100vh; }
-    .header { background: linear-gradient(135deg, #111 0%, #1A1500 100%); border-bottom: 1px solid rgba(212,175,55,0.2); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; position: sticky; top: 0; z-index: 5; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .logo { width: 30px; height: 30px; background: linear-gradient(135deg, #D4AF37, #8B6914); clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
-    .brand-small { font-size: 9px; letter-spacing: .2em; color: #D4AF37; text-transform: uppercase; }
-    .brand-title { font-size: 15px; font-family: 'Playfair Display', serif; font-weight: 700; }
-    .nav { display: flex; gap: 2px; background: rgba(255,255,255,.04); border-radius: 10px; padding: 3px; flex-wrap: wrap; }
-    .nav button { padding: 9px 14px; border-radius: 8px; border: none; cursor: pointer; font-size: 11px; font-weight: 600; background: transparent; color: #6B7280; border-bottom: 2px solid transparent; }
-    .nav button.active { background: rgba(212,175,55,.15); color: #D4AF37; border-bottom-color: #D4AF37; }
-    .badge { margin-left: 5px; background: #D4AF37; color: #000; border-radius: 10px; font-size: 9px; font-weight: 700; padding: 1px 5px; }
-    .version { font-size: 10px; color: #6B7280; text-align: right; }
-    .version b { color: #D4AF37; font-weight: 500; }
-    .grid-main { display: grid; grid-template-columns: 1fr 1fr; gap: 0; max-width: 1120px; margin: 0 auto; padding: 22px; }
-    .left { padding-right: 18px; }
-    .right { padding-left: 18px; }
-    .label { font-size: 11px; color: #9CA3AF; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 7px; }
-    .text-input, .num-input { background: rgba(212,175,55,.06); border: 1px solid rgba(212,175,55,.25); border-radius: 10px; color: #F5F0E8; padding: 11px 14px; font-size: 14px; outline: none; width: 100%; }
-    .tabs { display: flex; gap: 3px; margin: 18px 0; background: rgba(255,255,255,.04); border-radius: 10px; padding: 3px; }
-    .tabs button { flex: 1; padding: 7px 4px; border-radius: 7px; border: none; background: transparent; color: #6B7280; font-size: 11px; cursor: pointer; }
-    .tabs button.active { background: rgba(212,175,55,.15); color: #D4AF37; font-weight: 600; }
-    .panel, .card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 14px; padding: 20px; }
-    .slider-block { margin-bottom: 18px; }
-    .slider-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-    .input-wrap { display: flex; align-items: center; gap: 4px; }
-    .prefix, .suffix { color: #D4AF37; font-family: 'DM Mono', monospace; font-size: 13px; }
-    .slider-num { background: rgba(212,175,55,.08); border: 1px solid rgba(212,175,55,.3); border-radius: 6px; color: #F5F0E8; padding: 4px 8px; width: 82px; text-align: right; font-family: 'DM Mono', monospace; font-size: 13px; outline: none; }
-    input[type=range] { width: 100%; accent-color: #D4AF37; }
-    .hint { font-size: 11px; color: #6B7280; margin-top: 3px; }
-    .mp-btn { width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); color: #9CA3AF; cursor: pointer; font-size: 12px; display: flex; justify-content: space-between; margin-bottom: 6px; }
-    .mp-btn.active { border-color: #D4AF37; background: rgba(212,175,55,.1); color: #D4AF37; }
-    .hero { background: linear-gradient(135deg, #111 0%, #1A1500 100%); border-radius: 14px; padding: 22px; margin-bottom: 14px; border: 1px solid rgba(0,229,160,.25); }
-    .eyebrow { font-size: 10px; color: #6B7280; letter-spacing: .15em; text-transform: uppercase; }
-    .price { font-size: 42px; font-family: 'Playfair Display', serif; font-weight: 700; color: #F5F0E8; }
-    .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
-    .metric { text-align: center; }
-    .metric-label { font-size: 11px; color: #6B7280; margin-bottom: 4px; }
-    .metric-value { font-size: 20px; font-family: 'DM Mono', monospace; font-weight: 700; }
-    .save-btn { width: 100%; margin-top: 16px; padding: 10px; border-radius: 9px; border: 1px solid rgba(212,175,55,.4); background: rgba(212,175,55,.12); color: #D4AF37; font-size: 12px; font-weight: 600; cursor: pointer; }
-    .save-btn.saved { background: rgba(0,229,160,.15); color: #00E5A0; }
-    .decision { border-radius: 12px; padding: 14px; margin-bottom: 12px; }
-    .row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 7px; gap: 12px; }
-    .row span:first-child { color: #9CA3AF; }
-    .row span:last-child { font-family: 'DM Mono', monospace; text-align: right; }
-    .error { background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.3); border-radius: 14px; padding: 24px; color: #F87171; }
-    .portfolio { max-width: 1100px; margin: 0 auto; padding: 28px; }
-    .portfolio-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 22px; gap: 16px; }
-    .portfolio-title { font-size: 22px; font-family: 'Playfair Display', serif; font-weight: 700; }
-    .sorts { display: flex; gap: 6px; flex-wrap: wrap; }
-    .sorts button { padding: 6px 10px; border-radius: 7px; border: none; background: rgba(255,255,255,.05); color: #6B7280; font-size: 11px; cursor: pointer; }
-    .sorts button.active { background: rgba(212,175,55,.15); color: #D4AF37; }
-    .csv { border: 1px solid rgba(212,175,55,.4) !important; background: rgba(212,175,55,.08) !important; color: #D4AF37 !important; font-weight: 600; }
-    .product-row { background: rgba(255,255,255,.03); border-radius: 12px; padding: 14px 16px; display: grid; grid-template-columns: 2fr .8fr .8fr .8fr .9fr 1fr auto; gap: 10px; align-items: center; margin-bottom: 8px; }
-    .prod-name { font-size: 13px; font-weight: 600; }
-    .prod-sub { font-size: 10px; color: #6B7280; }
-    .mono { font-family: 'DM Mono', monospace; font-size: 12px; }
-    .small-btn { padding: 5px 8px; border-radius: 6px; background: transparent; cursor: pointer; }
-    .load { border: 1px solid rgba(212,175,55,.3); color: #D4AF37; }
-    .del { border: 1px solid rgba(248,113,113,.3); color: #F87171; }
-    .footer { text-align: center; padding: 12px 28px; border-top: 1px solid rgba(255,255,255,.06); margin-top: 8px; font-size: 10px; color: #374151; letter-spacing: .1em; }
-    @media (max-width: 850px) {
-      .header { flex-direction: column; align-items: stretch; position: static; }
-      .version { text-align: left; }
-      .grid-main { grid-template-columns: 1fr; padding: 14px; }
-      .left, .right { padding: 0; }
-      .right { margin-top: 18px; }
-      .metric-grid { grid-template-columns: 1fr; }
-      .portfolio-head { flex-direction: column; }
-      .product-row { grid-template-columns: 1fr 1fr; }
-    }
+    :root{--bg:#0A0A0A;--gold:#D4AF37;--cream:#F5F0E8;--muted:#6B7280;--green:#00E5A0;--ok:#4ADE80;--yellow:#FACC15;--red:#F87171}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--cream);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif} button,input{font:inherit}
+    .header{background:linear-gradient(135deg,#111,#1A1500);border-bottom:1px solid rgba(212,175,55,.22);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:2}.brand{display:flex;align-items:center;gap:10px}.logo{width:30px;height:30px;background:linear-gradient(135deg,#D4AF37,#8B6914);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}.small{font-size:9px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}.title{font-size:16px;font-weight:800}.nav{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:10px;padding:3px;flex-wrap:wrap}.nav button,.tab button,.sorts button{border:0;border-radius:8px;background:transparent;color:var(--muted);padding:9px 12px;font-size:12px;font-weight:700}.nav button.active,.tab button.active,.sorts button.active{background:rgba(212,175,55,.15);color:var(--gold)}.version{font-size:10px;color:var(--muted);text-align:right}.version b{color:var(--gold)}
+    .wrap{max-width:1140px;margin:0 auto;padding:20px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}.panel,.card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.09);border-radius:16px;padding:18px}.field{margin-bottom:17px}.label{font-size:11px;color:#9CA3AF;letter-spacing:.06em;text-transform:uppercase;margin-bottom:7px}.text,.num{width:100%;background:rgba(212,175,55,.07);border:1px solid rgba(212,175,55,.28);border-radius:10px;color:var(--cream);padding:11px 13px;outline:none}.rowhead{display:flex;justify-content:space-between;align-items:center;gap:10px}.numwrap{display:flex;align-items:center;gap:4px}.pre,.suf{color:var(--gold);font-family:ui-monospace,monospace;font-size:13px}.num{width:86px;text-align:right;font-family:ui-monospace,monospace;padding:5px 8px}input[type=range]{width:100%;accent-color:var(--gold)}.hint{font-size:11px;color:var(--muted);margin-top:3px}.tab{display:flex;gap:4px;margin:18px 0;background:rgba(255,255,255,.04);border-radius:10px;padding:3px}.tab button{flex:1}.mp{width:100%;display:flex;justify-content:space-between;margin:0 0 8px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03);color:#9CA3AF}.mp.active{border-color:var(--gold);background:rgba(212,175,55,.11);color:var(--gold)}
+    .hero{background:linear-gradient(135deg,#111,#1A1500);border:1px solid rgba(0,229,160,.25);border-radius:16px;padding:22px;margin-bottom:14px}.eyebrow{font-size:10px;color:var(--muted);letter-spacing:.16em;text-transform:uppercase}.price{font-size:42px;font-weight:900;line-height:1.05;margin:6px 0 12px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{text-align:center}.metric .l{font-size:11px;color:var(--muted);margin-bottom:4px}.metric .v{font-size:20px;font-family:ui-monospace,monospace;font-weight:800}.save{width:100%;margin-top:16px;padding:11px;border-radius:10px;border:1px solid rgba(212,175,55,.45);background:rgba(212,175,55,.12);color:var(--gold);font-size:12px;font-weight:800}.decision{border-radius:14px;padding:15px;margin-bottom:12px}.line{display:flex;justify-content:space-between;gap:12px;margin:0 0 8px;font-size:12px}.line span:first-child{color:#9CA3AF}.line span:last-child{font-family:ui-monospace,monospace;text-align:right}.error{background:rgba(248,113,113,.09);border:1px solid rgba(248,113,113,.35);border-radius:16px;padding:20px;color:var(--red)}
+    .portfolio-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.sorts{display:flex;gap:6px;flex-wrap:wrap}.csv{border:1px solid rgba(212,175,55,.45)!important;color:var(--gold)!important;background:rgba(212,175,55,.1)!important}.product{display:grid;grid-template-columns:2fr .85fr .85fr .85fr .95fr 1fr auto;gap:10px;align-items:center;background:rgba(255,255,255,.035);border-radius:14px;border:1px solid rgba(255,255,255,.08);padding:14px 16px;margin-bottom:8px}.prodname{font-size:13px;font-weight:800}.sub{font-size:10px;color:var(--muted)}.mono{font-family:ui-monospace,monospace;font-size:12px}.iconbtn{padding:6px 9px;border-radius:7px;background:transparent}.load{border:1px solid rgba(212,175,55,.35);color:var(--gold)}.del{border:1px solid rgba(248,113,113,.35);color:var(--red)}.empty{text-align:center;color:var(--muted);padding:60px 20px}.footer{text-align:center;padding:14px;color:#374151;font-size:10px;letter-spacing:.1em;border-top:1px solid rgba(255,255,255,.06)}
+    @media(max-width:850px){.header{position:static;flex-direction:column;align-items:stretch}.version{text-align:left}.grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}.portfolio-head{flex-direction:column}.product{grid-template-columns:1fr 1fr}.wrap{padding:14px}.price{font-size:36px}}
   </style>
 </head>
 <body>
-  <div id="root"></div>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <div id="app"></div>
   <script>
-    const { useState, useEffect } = React;
-
-    const defaultValues = {
-      nomeProduto: '', custoRolo: 80, gramasPeca: 100, embalagem: 3, marketplace: 'shopee', imposto: 7,
-      custoFixoMensal: 4200, unidadesMes: 150, custoAdsMensal: 0, margemDesejada: 55, precoAtual: 0,
-      horasImpressao: 6, valorHoraMaquina: 4, energiaPeca: 0.8, perdaProducao: 8, comissaoFixa: 2, vendasMesProduto: 10
-    };
-
-    const marketplaceRates = {
-      shopee: { nome: 'Shopee', taxa: 16, comissaoFixaPadrao: 2 },
-      mercadolivre: { nome: 'Mercado Livre', taxa: 17, comissaoFixaPadrao: 6 },
-      proprio: { nome: 'Loja Própria', taxa: 3, comissaoFixaPadrao: 1 }
-    };
-
-    const STORAGE_KEY = 'solidum3d_historico_v5_html';
-    const fmt = (val) => Number(val || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const pct = (val) => `${Number(val || 0).toFixed(1)}%`;
-    function loadHistorico() { try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : []; } catch { return []; } }
-    function saveHistorico(list) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch {} }
-
-    function precoPsicologico(valor) {
-      if (!isFinite(valor) || valor <= 0) return 0;
-      const bases = [29.9,34.9,39.9,44.9,49.9,54.9,59.9,64.9,69.9,74.9,79.9,84.9,89.9,99.9,109.9,119.9,129.9,149.9,169.9,199.9,249.9,299.9,349.9,399.9,499.9];
-      return bases.find(p => p >= valor) || Math.ceil(valor / 10) * 10 - 0.1;
-    }
-
-    function calcularResultado(v) {
-      const mp = marketplaceRates[v.marketplace] || marketplaceRates.shopee;
-      const taxa = Number(mp.taxa || 0) / 100;
-      const imposto = Number(v.imposto || 0) / 100;
-      const margemFrac = Number(v.margemDesejada || 0) / 100;
-      const unidadesMes = Math.max(Number(v.unidadesMes || 1), 1);
-      const custoFixoUnit = Number(v.custoFixoMensal || 0) / unidadesMes;
-      const custoAdsUnit = Number(v.custoAdsMensal || 0) / unidadesMes;
-      const custoFilamentoBruto = (Number(v.custoRolo || 0) / 1000) * Number(v.gramasPeca || 0);
-      const perda = Number(v.perdaProducao || 0) / 100;
-      const custoFilamento = custoFilamentoBruto * (1 + perda);
-      const embalagem = Number(v.embalagem || 0);
-      const energiaPeca = Number(v.energiaPeca || 0);
-      const horasImpressao = Number(v.horasImpressao || 0);
-      const valorHoraMaquina = Number(v.valorHoraMaquina || 0);
-      const custoTempoMaquina = horasImpressao * valorHoraMaquina;
-      const comissaoFixa = Number(v.comissaoFixa || 0) || Number(mp.comissaoFixaPadrao || 0);
-      const custoVariavel = custoFilamento + embalagem + energiaPeca + custoTempoMaquina + comissaoFixa;
-      const custoTotal = custoVariavel + custoFixoUnit + custoAdsUnit;
-      const denominadorMinimo = 1 - taxa - imposto;
-      const denominadorIdeal = 1 - taxa - imposto - margemFrac;
-      const precoMinimo = denominadorMinimo > 0 ? custoTotal / denominadorMinimo : null;
-      const precoSugerido = denominadorIdeal > 0 ? custoTotal / denominadorIdeal : null;
-      if (!precoSugerido || !isFinite(precoSugerido)) return { erro: 'Combinação inviável: reduza margem, taxa ou custos.', custoTotal, precoMinimo };
-      const precoPsico = precoPsicologico(precoSugerido);
-      const taxaValor = precoSugerido * taxa;
-      const impostoValor = precoSugerido * imposto;
-      const lucroLiquido = precoSugerido - custoTotal - taxaValor - impostoValor;
-      const margemReal = (lucroLiquido / precoSugerido) * 100;
-      const lucroHora = horasImpressao > 0 ? lucroLiquido / horasImpressao : 0;
-      const capacidadeMensalPorMaquina = horasImpressao > 0 ? Math.floor((24 * 26) / horasImpressao) : 0;
-      const capacidadeMensal5Maquinas = capacidadeMensalPorMaquina * 5;
-      const lucroMensalEstimado = lucroLiquido * Number(v.vendasMesProduto || 0);
-
-      let viabilidade = 'Revisar', viabilidadeCor = '#FACC15', viabilidadeMsg = 'Produto exige atenção antes de escalar.';
-      if (margemReal >= 40 && lucroLiquido >= 15 && lucroHora >= 3) { viabilidade = 'Vale escalar'; viabilidadeCor = '#00E5A0'; viabilidadeMsg = 'Produto forte para ocupar máquina e receber tráfego.'; }
-      else if (margemReal >= 30 && lucroLiquido >= 10 && lucroHora >= 2) { viabilidade = 'Vale manter'; viabilidadeCor = '#4ADE80'; viabilidadeMsg = 'Produto saudável, mas ainda não é prioridade máxima.'; }
-      else if (margemReal >= 20) { viabilidade = 'Teste controlado'; viabilidadeCor = '#FACC15'; viabilidadeMsg = 'Pode vender, mas não deve ocupar muita capacidade.'; }
-      else { viabilidade = 'Não priorizar'; viabilidadeCor = '#F87171'; viabilidadeMsg = 'Margem baixa para a operação da Solidum3D.'; }
-
-      let classificacao = 'Crítico', cor = '#F87171', emoji = '🚨';
-      if (margemReal >= 50 && lucroHora >= 3) { classificacao = 'Campeão'; cor = '#00E5A0'; emoji = '🏆'; }
-      else if (margemReal >= 35) { classificacao = 'Saudável'; cor = '#4ADE80'; emoji = '✅'; }
-      else if (margemReal >= 20) { classificacao = 'Experimento'; cor = '#FACC15'; emoji = '⚠️'; }
-
-      let diagnosticoAtual = null;
-      const pa = Number(v.precoAtual || 0);
-      if (pa > 0) {
-        const lucroAtual = pa - custoTotal - pa * taxa - pa * imposto;
-        const margemAtual = (lucroAtual / pa) * 100;
-        const lucroHoraAtual = horasImpressao > 0 ? lucroAtual / horasImpressao : 0;
-        const diff = pa - precoSugerido;
-        let status = 'Saudável', statusCor = '#00E5A0', statusMsg = `Produto saudável: R$ ${fmt(lucroHoraAtual)} por hora de máquina.`;
-        if (precoMinimo && pa < precoMinimo) { status = 'Prejuízo'; statusCor = '#F87171'; statusMsg = `Você perde R$ ${fmt(Math.abs(lucroAtual))} por peça.`; }
-        else if (lucroHoraAtual < 2) { status = 'Baixo rendimento'; statusCor = '#FACC15'; statusMsg = `Lucro/hora de apenas R$ ${fmt(lucroHoraAtual)}.`; }
-        else if (margemAtual < 35) { status = 'Abaixo do ideal'; statusCor = '#FACC15'; statusMsg = `Margem real de ${pct(margemAtual)}.`; }
-        diagnosticoAtual = { lucroAtual, margemAtual, lucroHoraAtual, diff, status, statusCor, statusMsg, pa };
-      }
-      return { precoMinimo, precoSugerido, precoPsico, custoTotal, custoFixoUnit, custoAdsUnit, custoVariavel, custoFilamento, custoFilamentoBruto, embalagem, energiaPeca, custoTempoMaquina, comissaoFixa, taxaValor, impostoValor, lucroLiquido, margemReal, lucroHora, capacidadeMensalPorMaquina, capacidadeMensal5Maquinas, lucroMensalEstimado, classificacao, cor, emoji, viabilidade, viabilidadeCor, viabilidadeMsg, diagnosticoAtual };
-    }
-
-    function App() {
-      const [v, setV] = useState(defaultValues);
-      const [resultado, setResultado] = useState(null);
-      const [tab, setTab] = useState('custos');
-      const [viewTab, setViewTab] = useState('calc');
-      const [historico, setHistorico] = useState([]);
-      const [savedMsg, setSavedMsg] = useState(false);
-      const [sortBy, setSortBy] = useState('lucroHora');
-
-      useEffect(() => { setHistorico(loadHistorico()); }, []);
-      useEffect(() => { setResultado(calcularResultado(v)); }, [v]);
-      const set = (key, val) => setV(prev => ({ ...prev, [key]: val }));
-
-      function salvarProduto() {
-        if (!resultado || resultado.erro) return;
-        const entrada = { id: Date.now(), data: new Date().toLocaleDateString('pt-BR'), nome: v.nomeProduto || 'Produto sem nome', marketplace: marketplaceRates[v.marketplace]?.nome || 'Shopee', precoSugerido: resultado.precoSugerido, precoPsico: resultado.precoPsico, precoMinimo: resultado.precoMinimo, precoAtual: Number(v.precoAtual || 0), lucroLiquido: resultado.lucroLiquido, lucroHora: resultado.lucroHora, margemReal: resultado.margemReal, margemAtual: resultado.diagnosticoAtual?.margemAtual || null, lucroAtual: resultado.diagnosticoAtual?.lucroAtual || null, viabilidade: resultado.viabilidade, viabilidadeCor: resultado.viabilidadeCor, classificacao: resultado.classificacao, cor: resultado.cor, emoji: resultado.emoji, custoTotal: resultado.custoTotal, capacidadeMensalPorMaquina: resultado.capacidadeMensalPorMaquina, capacidadeMensal5Maquinas: resultado.capacidadeMensal5Maquinas, lucroMensalEstimado: resultado.lucroMensalEstimado, inputs: { ...v } };
-        const novo = [entrada, ...historico.filter(h => h.nome !== entrada.nome || h.inputs?.marketplace !== entrada.inputs.marketplace)];
-        setHistorico(novo); saveHistorico(novo); setSavedMsg(true); setTimeout(() => setSavedMsg(false), 2000);
-      }
-      function excluirProduto(id) { const novo = historico.filter(h => h.id !== id); setHistorico(novo); saveHistorico(novo); }
-      function recarregarProduto(entrada) { setV(entrada.inputs); setViewTab('calc'); setTab('custos'); }
-      function exportarCSV() {
-        if (!historico.length) return;
-        const header = ['Data','Produto','Marketplace','Preço Atual','Margem Atual %','Preço Sugerido','Preço Psicológico','Preço Mínimo','Lucro/Peça','Lucro/Hora','Margem Ideal %','Viabilidade','Capacidade 1 Máquina','Capacidade 5 Máquinas','Lucro Mensal Estimado','Classificação'];
-        const rows = historico.map(h => [h.data,h.nome,h.marketplace,h.precoAtual > 0 ? h.precoAtual.toFixed(2) : '-',h.margemAtual != null ? h.margemAtual.toFixed(1) : '-',h.precoSugerido.toFixed(2),h.precoPsico?.toFixed(2) || '-',h.precoMinimo?.toFixed(2) || '-',h.lucroLiquido.toFixed(2),h.lucroHora?.toFixed(2) || '-',h.margemReal.toFixed(1),h.viabilidade || '-',h.capacidadeMensalPorMaquina || '-',h.capacidadeMensal5Maquinas || '-',h.lucroMensalEstimado?.toFixed(2) || '-',h.classificacao]);
-        const csv = [header, ...rows].map(r => r.join(';')).join('\n');
-        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'solidum3d_precificadora_v5.csv'; a.click(); URL.revokeObjectURL(url);
-      }
-      const sorted = [...historico].sort((a,b) => sortBy === 'margem' ? b.margemReal - a.margemReal : sortBy === 'lucro' ? b.lucroLiquido - a.lucroLiquido : sortBy === 'lucroHora' ? (b.lucroHora || 0) - (a.lucroHora || 0) : sortBy === 'preco' ? b.precoSugerido - a.precoSugerido : sortBy === 'nome' ? a.nome.localeCompare(b.nome) : 0);
-
-      const InputSlider = ({ label, keyName, min, max, step = 1, prefix = '', suffix = '', hint = '' }) => React.createElement('div', { className: 'slider-block' },
-        React.createElement('div', { className: 'slider-head' },
-          React.createElement('span', { className: 'label', style: { marginBottom: 0 } }, label),
-          React.createElement('div', { className: 'input-wrap' },
-            React.createElement('span', { className: 'prefix' }, prefix),
-            React.createElement('input', { className: 'slider-num', type: 'number', value: v[keyName], min, max, step, onChange: e => set(keyName, parseFloat(e.target.value) || 0) }),
-            React.createElement('span', { className: 'suffix' }, suffix)
-          )
-        ),
-        React.createElement('input', { type: 'range', min, max, step, value: v[keyName], onChange: e => set(keyName, parseFloat(e.target.value)) }),
-        hint ? React.createElement('div', { className: 'hint' }, hint) : null
-      );
-      const CardNum = ({ label, value, cor = '#F5F0E8' }) => React.createElement('div', { className: 'metric' }, React.createElement('div', { className: 'metric-label' }, label), React.createElement('div', { className: 'metric-value', style: { color: cor } }, value));
-      const MpSelect = () => React.createElement('div', null, Object.entries(marketplaceRates).map(([key, mp]) => React.createElement('button', { key, className: `mp-btn ${key === v.marketplace ? 'active' : ''}`, onClick: () => { set('marketplace', key); set('comissaoFixa', mp.comissaoFixaPadrao); } }, React.createElement('span', null, mp.nome), React.createElement('span', null, `−${mp.taxa}% + R$ ${fmt(mp.comissaoFixaPadrao)}`))));
-      const NavBtn = ({ id, label, count = 0 }) => React.createElement('button', { className: viewTab === id ? 'active' : '', onClick: () => setViewTab(id) }, label, count > 0 ? React.createElement('span', { className: 'badge' }, count) : null);
-
-      function renderTab() {
-        if (tab === 'custos') return React.createElement(React.Fragment, null,
-          React.createElement(InputSlider, { label: 'Custo do rolo', keyName: 'custoRolo', min: 20, max: 300, step: 1, prefix: 'R$', hint: 'Valor do rolo de 1kg' }),
-          React.createElement(InputSlider, { label: 'Consumo por peça', keyName: 'gramasPeca', min: 1, max: 1000, step: 1, suffix: 'g' }),
-          React.createElement(InputSlider, { label: 'Embalagem e insumos', keyName: 'embalagem', min: 0, max: 30, step: 0.5, prefix: 'R$' }),
-          React.createElement(InputSlider, { label: 'Margem desejada', keyName: 'margemDesejada', min: 10, max: 80, step: 1, suffix: '%' }),
-          React.createElement(InputSlider, { label: 'Preço atual praticado', keyName: 'precoAtual', min: 0, max: 500, step: 0.5, prefix: 'R$' })
-        );
-        if (tab === 'producao') return React.createElement(React.Fragment, null,
-          React.createElement(InputSlider, { label: 'Tempo de impressão', keyName: 'horasImpressao', min: 0.5, max: 24, step: 0.5, suffix: 'h', hint: 'Tempo médio que a peça ocupa uma impressora' }),
-          React.createElement(InputSlider, { label: 'Valor da hora de máquina', keyName: 'valorHoraMaquina', min: 0, max: 20, step: 0.5, prefix: 'R$', hint: 'Custo estratégico por hora de impressora ocupada' }),
-          React.createElement(InputSlider, { label: 'Energia por peça', keyName: 'energiaPeca', min: 0, max: 10, step: 0.1, prefix: 'R$' }),
-          React.createElement(InputSlider, { label: 'Perda / refugo', keyName: 'perdaProducao', min: 0, max: 30, step: 1, suffix: '%', hint: 'Falhas, suporte, testes, retrabalho e perdas' }),
-          React.createElement(InputSlider, { label: 'Vendas mensais do produto', keyName: 'vendasMesProduto', min: 0, max: 500, step: 1, suffix: ' un' })
-        );
-        if (tab === 'estrutura') return React.createElement(React.Fragment, null,
-          React.createElement(InputSlider, { label: 'Custo fixo mensal total', keyName: 'custoFixoMensal', min: 0, max: 20000, step: 100, prefix: 'R$' }),
-          React.createElement(InputSlider, { label: 'Investimento em Ads/mês', keyName: 'custoAdsMensal', min: 0, max: 10000, step: 50, prefix: 'R$' }),
-          React.createElement(InputSlider, { label: 'Unidades vendidas/mês', keyName: 'unidadesMes', min: 10, max: 2000, step: 5, suffix: ' un' }),
-          React.createElement(InputSlider, { label: 'Imposto', keyName: 'imposto', min: 4, max: 15, step: 0.5, suffix: '%' })
-        );
-        return React.createElement(React.Fragment, null,
-          React.createElement('div', { className: 'label' }, 'Marketplace'), React.createElement(MpSelect),
-          React.createElement('div', { style: { marginTop: 18 } }, React.createElement(InputSlider, { label: 'Comissão fixa por venda', keyName: 'comissaoFixa', min: 0, max: 30, step: 0.5, prefix: 'R$', hint: 'Tarifa fixa, cupom, frete subsidiado ou custo adicional' }))
-        );
-      }
-
-      function renderCalc() {
-        return React.createElement('div', { className: 'grid-main' },
-          React.createElement('div', { className: 'left' },
-            React.createElement('div', { style: { marginBottom: 18 } }, React.createElement('div', { className: 'label' }, 'Nome do Produto'), React.createElement('input', { className: 'text-input', type: 'text', value: v.nomeProduto, placeholder: 'Ex: SolidCristo, SolidPray...', onChange: e => set('nomeProduto', e.target.value) })),
-            React.createElement('div', { className: 'tabs' }, [['custos','Custos'],['producao','Produção'],['estrutura','Estrutura'],['canal','Canal']].map(([key,label]) => React.createElement('button', { key, className: tab === key ? 'active' : '', onClick: () => setTab(key) }, label))),
-            React.createElement('div', { className: 'panel' }, renderTab())
-          ),
-          React.createElement('div', { className: 'right' }, resultado?.erro ? React.createElement('div', { className: 'error' }, resultado.erro) : resultado && React.createElement(React.Fragment, null,
-            resultado.diagnosticoAtual ? React.createElement('div', { className: 'decision', style: { background: `${resultado.diagnosticoAtual.statusCor}10`, border: `1px solid ${resultado.diagnosticoAtual.statusCor}40` } },
-              React.createElement('div', { className: 'eyebrow', style: { color: resultado.diagnosticoAtual.statusCor, marginBottom: 10 } }, 'Diagnóstico do Preço Atual'),
-              React.createElement('div', { className: 'metric-grid' }, React.createElement(CardNum, { label: 'Margem atual', value: pct(resultado.diagnosticoAtual.margemAtual), cor: resultado.diagnosticoAtual.statusCor }), React.createElement(CardNum, { label: 'Lucro atual', value: `R$ ${fmt(resultado.diagnosticoAtual.lucroAtual)}`, cor: resultado.diagnosticoAtual.statusCor }), React.createElement(CardNum, { label: 'Lucro/hora atual', value: `R$ ${fmt(resultado.diagnosticoAtual.lucroHoraAtual)}`, cor: resultado.diagnosticoAtual.statusCor })),
-              React.createElement('div', { style: { marginTop: 10, fontSize: 12, color: '#9CA3AF' } }, resultado.diagnosticoAtual.statusMsg)
-            ) : null,
-            React.createElement('div', { className: 'hero', style: { borderColor: `${resultado.cor}40` } },
-              React.createElement('div', { className: 'eyebrow' }, 'Preço Sugerido'), React.createElement('div', { className: 'price' }, `R$ ${fmt(resultado.precoSugerido)}`),
-              React.createElement('div', { className: 'metric-grid' }, React.createElement(CardNum, { label: 'Preço psicológico', value: `R$ ${fmt(resultado.precoPsico)}`, cor: '#D4AF37' }), React.createElement(CardNum, { label: 'Lucro/peça', value: `R$ ${fmt(resultado.lucroLiquido)}`, cor: resultado.cor }), React.createElement(CardNum, { label: 'Margem', value: pct(resultado.margemReal), cor: resultado.cor })),
-              React.createElement('button', { className: `save-btn ${savedMsg ? 'saved' : ''}`, onClick: salvarProduto }, savedMsg ? '✓ Salvo no portfólio!' : '＋ Salvar no Portfólio')
-            ),
-            React.createElement('div', { className: 'decision', style: { background: `${resultado.viabilidadeCor}10`, border: `1px solid ${resultado.viabilidadeCor}40` } }, React.createElement('div', { className: 'eyebrow', style: { color: resultado.viabilidadeCor, marginBottom: 6 } }, 'Decisão Estratégica'), React.createElement('div', { style: { fontSize: 18, fontWeight: 700, color: resultado.viabilidadeCor } }, resultado.viabilidade), React.createElement('div', { style: { fontSize: 12, color: '#9CA3AF', marginTop: 4 } }, resultado.viabilidadeMsg)),
-            React.createElement('div', { className: 'metric-grid', style: { marginBottom: 12 } }, React.createElement(CardNum, { label: 'Lucro / hora', value: `R$ ${fmt(resultado.lucroHora)}`, cor: resultado.viabilidadeCor }), React.createElement(CardNum, { label: 'Lucro mensal', value: `R$ ${fmt(resultado.lucroMensalEstimado)}`, cor: '#00E5A0' }), React.createElement(CardNum, { label: 'Preço mínimo', value: `R$ ${fmt(resultado.precoMinimo)}`, cor: '#F87171' })),
-            React.createElement('div', { className: 'card', style: { marginBottom: 12 } }, React.createElement('div', { className: 'eyebrow', style: { marginBottom: 10 } }, 'Capacidade Produtiva'), React.createElement('div', { className: 'row' }, React.createElement('span', null, 'Capacidade mensal por máquina'), React.createElement('span', null, `${resultado.capacidadeMensalPorMaquina} peças`)), React.createElement('div', { className: 'row' }, React.createElement('span', null, 'Capacidade mensal com 5 máquinas'), React.createElement('span', { style: { color: '#D4AF37' } }, `${resultado.capacidadeMensal5Maquinas} peças`))),
-            React.createElement('div', { className: 'card' }, React.createElement('div', { className: 'eyebrow', style: { marginBottom: 12 } }, 'Decomposição do Preço'), [['Filamento com refugo', resultado.custoFilamento],['Embalagem', resultado.embalagem],['Energia', resultado.energiaPeca],['Hora de máquina', resultado.custoTempoMaquina],['Comissão fixa', resultado.comissaoFixa],['Custo fixo rateado', resultado.custoFixoUnit],['Ads rateado', resultado.custoAdsUnit],['Taxa marketplace', resultado.taxaValor],['Imposto', resultado.impostoValor],['Lucro líquido', resultado.lucroLiquido]].map(([label, valor]) => React.createElement('div', { className: 'row', key: label }, React.createElement('span', null, label), React.createElement('span', null, `R$ ${fmt(valor)}`))))
-          ))
-        );
-      }
-
-      function renderPortfolio() {
-        return React.createElement('div', { className: 'portfolio' },
-          React.createElement('div', { className: 'portfolio-head' }, React.createElement('div', null, React.createElement('div', { className: 'portfolio-title' }, 'Portfólio Solidum3D'), React.createElement('div', { style: { fontSize: 13, color: '#6B7280' } }, 'Ranking por margem, lucro e lucro por hora')), React.createElement('div', { className: 'sorts' }, [['lucroHora','Lucro/hora'],['margem','Margem'],['lucro','Lucro/peça'],['preco','Preço'],['nome','Nome']].map(([key,label]) => React.createElement('button', { key, className: sortBy === key ? 'active' : '', onClick: () => setSortBy(key) }, label)), historico.length > 0 ? React.createElement('button', { className: 'csv', onClick: exportarCSV }, '↓ CSV') : null)),
-          historico.length === 0 ? React.createElement('div', { style: { textAlign: 'center', padding: '60px 20px', color: '#6B7280' } }, 'Nenhum produto salvo ainda.') : React.createElement('div', null, sorted.map(h => React.createElement('div', { className: 'product-row', key: h.id, style: { border: `1px solid ${h.viabilidadeCor || h.cor}35` } }, React.createElement('div', null, React.createElement('div', { className: 'prod-name' }, h.nome), React.createElement('div', { className: 'prod-sub' }, `${h.marketplace} · ${h.data} · ${h.viabilidade || ''}`)), React.createElement('div', { className: 'mono' }, `R$ ${fmt(h.precoSugerido)}`), React.createElement('div', { className: 'mono', style: { color: '#D4AF37' } }, `R$ ${fmt(h.precoPsico)}`), React.createElement('div', { className: 'mono', style: { color: h.cor } }, pct(h.margemReal)), React.createElement('div', { className: 'mono', style: { color: h.cor } }, `R$ ${fmt(h.lucroLiquido)}`), React.createElement('div', { className: 'mono', style: { color: h.viabilidadeCor } }, `R$ ${fmt(h.lucroHora)}/h`), React.createElement('div', { style: { display: 'flex', gap: 5 } }, React.createElement('button', { className: 'small-btn load', onClick: () => recarregarProduto(h) }, '↩'), React.createElement('button', { className: 'small-btn del', onClick: () => excluirProduto(h.id) }, '✕'))))))
-        );
-      }
-
-      return React.createElement('div', { className: 'app' },
-        React.createElement('div', { className: 'header' },
-          React.createElement('div', { className: 'brand' }, React.createElement('div', { className: 'logo' }), React.createElement('div', null, React.createElement('div', { className: 'brand-small' }, 'Solidum3D'), React.createElement('div', { className: 'brand-title' }, 'Precificadora Estratégica'))),
-          React.createElement('div', { className: 'nav' }, React.createElement(NavBtn, { id: 'calc', label: 'Calculadora' }), React.createElement(NavBtn, { id: 'portfolio', label: 'Portfólio', count: historico.length })),
-          React.createElement('div', { className: 'version' }, React.createElement('div', null, 'Atlas Solidum'), React.createElement('b', null, 'v5.0'))
-        ),
-        viewTab === 'calc' ? renderCalc() : renderPortfolio(),
-        React.createElement('div', { className: 'footer' }, 'SOLIDUM3D · ATLAS SOLIDUM · PRECIFICADORA ESTRATÉGICA v5.0')
-      );
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
-  </script>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js').catch(() => {});
-      });
-    }
+    const STORAGE_KEY='solidum3d_historico_v6';
+    const mpRates={shopee:{nome:'Shopee',taxa:16,fixa:2},mercadolivre:{nome:'Mercado Livre',taxa:17,fixa:6},proprio:{nome:'Loja Própria',taxa:3,fixa:1}};
+    let v={nomeProduto:'',custoRolo:80,gramasPeca:100,embalagem:3,marketplace:'shopee',imposto:7,custoFixoMensal:4200,unidadesMes:150,custoAdsMensal:0,margemDesejada:55,precoAtual:0,horasImpressao:6,valorHoraMaquina:4,energiaPeca:.8,perdaProducao:8,comissaoFixa:2,vendasMesProduto:10};
+    let view='calc', tab='custos', sortBy='lucroHora', historico=[];
+    const $=id=>document.getElementById(id); const fmt=n=>Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); const pct=n=>`${Number(n||0).toFixed(1)}%`;
+    function load(){try{historico=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]')}catch{historico=[]}}
+    function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(historico))}catch{}}
+    function psico(valor){const bases=[29.9,34.9,39.9,44.9,49.9,54.9,59.9,64.9,69.9,74.9,79.9,84.9,89.9,99.9,109.9,119.9,129.9,149.9,169.9,199.9,249.9,299.9];return bases.find(p=>p>=valor)||Math.ceil(valor/10)*10-.1}
+    function calc(){const mp=mpRates[v.marketplace]||mpRates.shopee,taxa=mp.taxa/100,imp=Number(v.imposto||0)/100,marg=Number(v.margemDesejada||0)/100,un=Math.max(Number(v.unidadesMes||1),1);const fixo=Number(v.custoFixoMensal||0)/un,ads=Number(v.custoAdsMensal||0)/un,filBr=(Number(v.custoRolo||0)/1000)*Number(v.gramasPeca||0),fil=filBr*(1+Number(v.perdaProducao||0)/100),emb=Number(v.embalagem||0),energia=Number(v.energiaPeca||0),horas=Number(v.horasImpressao||0),tempo=horas*Number(v.valorHoraMaquina||0),fixa=Number(v.comissaoFixa||0)||mp.fixa;const variavel=fil+emb+energia+tempo+fixa,total=variavel+fixo+ads,denMin=1-taxa-imp,den=1-taxa-imp-marg;const minimo=denMin>0?total/denMin:null,sug=den>0?total/den:null;if(!sug||!isFinite(sug))return{erro:'Combinação inviável: reduza margem, taxa ou custos.',custoTotal:total,precoMinimo:minimo};const taxaV=sug*taxa,impV=sug*imp,lucro=sug-total-taxaV-impV,margem=(lucro/sug)*100,lucroHora=horas>0?lucro/horas:0,cap=horas>0?Math.floor((24*26)/horas):0,lucroMes=lucro*Number(v.vendasMesProduto||0);let viab='Revisar',vc='#FACC15',msg='Produto exige atenção antes de escalar.';if(margem>=40&&lucro>=15&&lucroHora>=3){viab='Vale escalar';vc='#00E5A0';msg='Produto forte para ocupar máquina e receber tráfego.'}else if(margem>=30&&lucro>=10&&lucroHora>=2){viab='Vale manter';vc='#4ADE80';msg='Produto saudável, mas ainda não é prioridade máxima.'}else if(margem>=20){viab='Teste controlado';vc='#FACC15';msg='Pode vender, mas não deve ocupar muita capacidade.'}else{viab='Não priorizar';vc='#F87171';msg='Margem baixa para a operação da Solidum3D.'}let clas='Crítico',cor='#F87171',emoji='🚨';if(margem>=50&&lucroHora>=3){clas='Campeão';cor='#00E5A0';emoji='🏆'}else if(margem>=35){clas='Saudável';cor='#4ADE80';emoji='✅'}else if(margem>=20){clas='Experimento';cor='#FACC15';emoji='⚠️'}let diag=null,pa=Number(v.precoAtual||0);if(pa>0){const la=pa-total-pa*taxa-pa*imp,ma=(la/pa)*100,lha=horas>0?la/horas:0;let st='Saudável',sc='#00E5A0',sm=`Produto saudável: R$ ${fmt(lha)} por hora de máquina.`;if(minimo&&pa<minimo){st='Prejuízo';sc='#F87171';sm=`Você perde R$ ${fmt(Math.abs(la))} por peça.`}else if(lha<2){st='Baixo rendimento';sc='#FACC15';sm=`Lucro/hora de apenas R$ ${fmt(lha)}.`}else if(ma<35){st='Abaixo do ideal';sc='#FACC15';sm=`Margem real de ${pct(ma)}.`}diag={lucroAtual:la,margemAtual:ma,lucroHoraAtual:lha,diff:pa-sug,status:st,statusCor:sc,statusMsg:sm,pa}}
+      return{precoMinimo:minimo,precoSugerido:sug,precoPsico:psico(sug),custoTotal:total,custoFixoUnit:fixo,custoAdsUnit:ads,custoVariavel:variavel,custoFilamento:fil,custoFilamentoBruto:filBr,embalagem:emb,energiaPeca:energia,custoTempoMaquina:tempo,comissaoFixa:fixa,taxaValor:taxaV,impostoValor:impV,lucroLiquido:lucro,margemReal:margem,lucroHora,capacidadeMensalPorMaquina:cap,capacidadeMensal5Maquinas:cap*5,lucroMensalEstimado:lucroMes,classificacao:clas,cor,emoji,viabilidade:viab,viabilidadeCor:vc,viabilidadeMsg:msg,diagnosticoAtual:diag}}
+    function slider(label,key,min,max,step,prefix='',suffix='',hint=''){return `<div class="field"><div class="rowhead"><div class="label">${label}</div><div class="numwrap"><span class="pre">${prefix}</span><input class="num" type="number" value="${v[key]}" min="${min}" max="${max}" step="${step}" onchange="setv('${key}',this.value)"><span class="suf">${suffix}</span></div></div><input type="range" value="${v[key]}" min="${min}" max="${max}" step="${step}" oninput="setv('${key}',this.value)">${hint?`<div class="hint">${hint}</div>`:''}</div>`}
+    function metric(l,val,cor='#F5F0E8'){return `<div class="metric"><div class="l">${l}</div><div class="v" style="color:${cor}">${val}</div></div>`}
+    function nav(){return `<div class="nav"><button class="${view==='calc'?'active':''}" onclick="view='calc';render()">Calculadora</button><button class="${view==='portfolio'?'active':''}" onclick="view='portfolio';render()">Portfólio ${historico.length?`<span class="badge">${historico.length}</span>`:''}</button></div>`}
+    function header(){return `<div class="header"><div class="brand"><div class="logo"></div><div><div class="small">Solidum3D</div><div class="title">Precificadora Estratégica</div></div></div>${nav()}<div class="version"><div>Atlas Solidum</div><b>v6.0</b></div></div>`}
+    function renderCalc(){const r=calc();let left=`<div class="field"><div class="label">Nome do Produto</div><input class="text" value="${v.nomeProduto}" placeholder="Ex: SolidCristo, SolidPray..." oninput="setText('nomeProduto',this.value)"></div><div class="tab">${['custos','producao','estrutura','canal'].map(t=>`<button class="${tab===t?'active':''}" onclick="tab='${t}';render()">${{custos:'Custos',producao:'Produção',estrutura:'Estrutura',canal:'Canal'}[t]}</button>`).join('')}</div><div class="panel">`;
+      if(tab==='custos')left+=slider('Custo do rolo','custoRolo',20,300,1,'R$','','Valor do rolo de 1kg')+slider('Consumo por peça','gramasPeca',1,1000,1,'','g')+slider('Embalagem e insumos','embalagem',0,30,.5,'R$')+slider('Margem desejada','margemDesejada',10,80,1,'','%')+slider('Preço atual praticado','precoAtual',0,500,.5,'R$');
+      if(tab==='producao')left+=slider('Tempo de impressão','horasImpressao',.5,24,.5,'','h','Tempo médio que a peça ocupa uma impressora')+slider('Valor da hora de máquina','valorHoraMaquina',0,20,.5,'R$','','Custo estratégico por hora de impressora ocupada')+slider('Energia por peça','energiaPeca',0,10,.1,'R$')+slider('Perda / refugo','perdaProducao',0,30,1,'','%','Falhas, suporte, testes, retrabalho e perdas')+slider('Vendas mensais do produto','vendasMesProduto',0,500,1,'',' un');
+      if(tab==='estrutura')left+=slider('Custo fixo mensal total','custoFixoMensal',0,20000,100,'R$')+slider('Investimento em Ads/mês','custoAdsMensal',0,10000,50,'R$')+slider('Unidades vendidas/mês','unidadesMes',10,2000,5,'',' un')+slider('Imposto','imposto',4,15,.5,'','%');
+      if(tab==='canal'){left+=`<div class="label">Marketplace</div>`+Object.entries(mpRates).map(([k,m])=>`<button class="mp ${v.marketplace===k?'active':''}" onclick="setMarket('${k}')"><span>${m.nome}</span><span>−${m.taxa}% + R$ ${fmt(m.fixa)}</span></button>`).join('')+slider('Comissão fixa por venda','comissaoFixa',0,30,.5,'R$','','Tarifa fixa, cupom, frete subsidiado ou custo adicional')}
+      left+='</div>'; if(r.erro)return `<div class="grid"><div>${left}</div><div><div class="error">${r.erro}</div></div></div>`;
+      let right=''; if(r.diagnosticoAtual)right+=`<div class="decision" style="background:${r.diagnosticoAtual.statusCor}12;border:1px solid ${r.diagnosticoAtual.statusCor}55"><div class="small" style="color:${r.diagnosticoAtual.statusCor}">Diagnóstico do Preço Atual</div><div class="metrics">${metric('Margem atual',pct(r.diagnosticoAtual.margemAtual),r.diagnosticoAtual.statusCor)}${metric('Lucro atual',`R$ ${fmt(r.diagnosticoAtual.lucroAtual)}`,r.diagnosticoAtual.statusCor)}${metric('Lucro/hora atual',`R$ ${fmt(r.diagnosticoAtual.lucroHoraAtual)}`,r.diagnosticoAtual.statusCor)}</div><div class="hint">${r.diagnosticoAtual.statusMsg}</div></div>`;
+      right+=`<div class="hero" style="border-color:${r.cor}55"><div class="eyebrow">Preço Sugerido</div><div class="price">R$ ${fmt(r.precoSugerido)}</div><div class="metrics">${metric('Preço psicológico',`R$ ${fmt(r.precoPsico)}`,'#D4AF37')}${metric('Lucro/peça',`R$ ${fmt(r.lucroLiquido)}`,r.cor)}${metric('Margem',pct(r.margemReal),r.cor)}</div><button class="save" onclick="salvar()">＋ Salvar no Portfólio</button></div><div class="decision" style="background:${r.viabilidadeCor}12;border:1px solid ${r.viabilidadeCor}55"><div class="small" style="color:${r.viabilidadeCor}">Decisão Estratégica</div><div style="font-size:18px;font-weight:900;color:${r.viabilidadeCor}">${r.viabilidade}</div><div class="hint">${r.viabilidadeMsg}</div></div><div class="metrics" style="margin-bottom:12px">${metric('Lucro / hora',`R$ ${fmt(r.lucroHora)}`,r.viabilidadeCor)}${metric('Lucro mensal',`R$ ${fmt(r.lucroMensalEstimado)}`,'#00E5A0')}${metric('Preço mínimo',`R$ ${fmt(r.precoMinimo)}`,'#F87171')}</div><div class="card"><div class="label">Capacidade Produtiva</div><div class="line"><span>Capacidade mensal por máquina</span><span>${r.capacidadeMensalPorMaquina} peças</span></div><div class="line"><span>Capacidade mensal com 5 máquinas</span><span style="color:#D4AF37">${r.capacidadeMensal5Maquinas} peças</span></div></div><br><div class="card"><div class="label">Decomposição do Preço</div>${[['Filamento com refugo',r.custoFilamento],['Embalagem',r.embalagem],['Energia',r.energiaPeca],['Hora de máquina',r.custoTempoMaquina],['Comissão fixa',r.comissaoFixa],['Custo fixo rateado',r.custoFixoUnit],['Ads rateado',r.custoAdsUnit],['Taxa marketplace',r.taxaValor],['Imposto',r.impostoValor],['Lucro líquido',r.lucroLiquido]].map(x=>`<div class="line"><span>${x[0]}</span><span>R$ ${fmt(x[1])}</span></div>`).join('')}</div>`;
+      return `<div class="grid"><div>${left}</div><div>${right}</div></div>`}
+    function renderPortfolio(){let arr=[...historico].sort((a,b)=>sortBy==='margem'?b.margemReal-a.margemReal:sortBy==='lucro'?b.lucroLiquido-a.lucroLiquido:sortBy==='preco'?b.precoSugerido-a.precoSugerido:sortBy==='nome'?a.nome.localeCompare(b.nome):(b.lucroHora||0)-(a.lucroHora||0));return `<div><div class="portfolio-head"><div><div class="title" style="font-size:22px">Portfólio Solidum3D</div><div class="hint">Ranking por margem, lucro e lucro por hora</div></div><div class="sorts">${[['lucroHora','Lucro/hora'],['margem','Margem'],['lucro','Lucro/peça'],['preco','Preço'],['nome','Nome']].map(s=>`<button class="${sortBy===s[0]?'active':''}" onclick="sortBy='${s[0]}';render()">${s[1]}</button>`).join('')}${historico.length?'<button class="csv" onclick="csv()">↓ CSV</button>':''}</div></div>${!historico.length?'<div class="empty">Nenhum produto salvo ainda.</div>':arr.map(h=>`<div class="product" style="border-color:${h.viabilidadeCor||h.cor}55"><div><div class="prodname">${h.nome}</div><div class="sub">${h.marketplace} · ${h.data} · ${h.viabilidade||''}</div></div><div class="mono">R$ ${fmt(h.precoSugerido)}</div><div class="mono" style="color:#D4AF37">R$ ${fmt(h.precoPsico)}</div><div class="mono" style="color:${h.cor}">${pct(h.margemReal)}</div><div class="mono" style="color:${h.cor}">R$ ${fmt(h.lucroLiquido)}</div><div class="mono" style="color:${h.viabilidadeCor}">R$ ${fmt(h.lucroHora)}/h</div><div><button class="iconbtn load" onclick="carregar(${h.id})">↩</button> <button class="iconbtn del" onclick="excluir(${h.id})">✕</button></div></div>`).join('')}</div>`}
+    function render(){document.getElementById('app').innerHTML=header()+`<main class="wrap">${view==='calc'?renderCalc():renderPortfolio()}</main>`+`<div class="footer">SOLIDUM3D · ATLAS SOLIDUM · PRECIFICADORA ESTRATÉGICA v6.0</div>`}
+    window.setv=(k,val)=>{v[k]=parseFloat(val)||0;render()}; window.setText=(k,val)=>{v[k]=val}; window.setMarket=k=>{v.marketplace=k;v.comissaoFixa=mpRates[k].fixa;render()};
+    window.salvar=()=>{const r=calc(); if(r.erro)return; const e={id:Date.now(),data:new Date().toLocaleDateString('pt-BR'),nome:v.nomeProduto||'Produto sem nome',marketplace:mpRates[v.marketplace]?.nome||'Shopee',precoSugerido:r.precoSugerido,precoPsico:r.precoPsico,precoMinimo:r.precoMinimo,precoAtual:Number(v.precoAtual||0),lucroLiquido:r.lucroLiquido,lucroHora:r.lucroHora,margemReal:r.margemReal,margemAtual:r.diagnosticoAtual?.margemAtual??null,lucroAtual:r.diagnosticoAtual?.lucroAtual??null,viabilidade:r.viabilidade,viabilidadeCor:r.viabilidadeCor,classificacao:r.classificacao,cor:r.cor,emoji:r.emoji,custoTotal:r.custoTotal,capacidadeMensalPorMaquina:r.capacidadeMensalPorMaquina,capacidadeMensal5Maquinas:r.capacidadeMensal5Maquinas,lucroMensalEstimado:r.lucroMensalEstimado,inputs:{...v}}; historico=[e,...historico.filter(h=>h.nome!==e.nome||h.inputs?.marketplace!==e.inputs.marketplace)]; save(); view='portfolio'; render()};
+    window.excluir=id=>{historico=historico.filter(h=>h.id!==id);save();render()}; window.carregar=id=>{const h=historico.find(x=>x.id===id);if(h){v={...h.inputs};view='calc';tab='custos';render()}};
+    window.csv=()=>{const header=['Data','Produto','Marketplace','Preço Atual','Margem Atual %','Preço Sugerido','Preço Psicológico','Preço Mínimo','Lucro/Peça','Lucro/Hora','Margem Ideal %','Viabilidade','Capacidade 1 Máquina','Capacidade 5 Máquinas','Lucro Mensal Estimado','Classificação'];const rows=historico.map(h=>[h.data,h.nome,h.marketplace,h.precoAtual>0?h.precoAtual.toFixed(2):'-',h.margemAtual!=null?h.margemAtual.toFixed(1):'-',h.precoSugerido.toFixed(2),h.precoPsico?.toFixed(2)||'-',h.precoMinimo?.toFixed(2)||'-',h.lucroLiquido.toFixed(2),h.lucroHora?.toFixed(2)||'-',h.margemReal.toFixed(1),h.viabilidade||'-',h.capacidadeMensalPorMaquina||'-',h.capacidadeMensal5Maquinas||'-',h.lucroMensalEstimado?.toFixed(2)||'-',h.classificacao]);const csv=[header,...rows].map(r=>r.join(';')).join('\n');const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='solidum3d_precificadora_v6.csv';a.click();URL.revokeObjectURL(url)};
+    load(); render(); if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}
   </script>
 </body>
 </html>
