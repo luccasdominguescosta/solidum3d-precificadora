@@ -3,8 +3,8 @@ const APP_SHELL = [
   './',
   './index.html',
   './manifest.json',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
+  './icon-192.png',
+  './icon-512.png',
   'https://unpkg.com/react@18/umd/react.production.min.js',
   'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js'
 ];
