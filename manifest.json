@@ -1,7 +1,7 @@
 {
   "name":"Precificadora Solidum3D",
   "short_name":"Solidum3D",
-  "description":"Precificadora Estratégica v7.0 da Solidum3D",
+  "description":"Precificadora Estratégica v7.1 da Solidum3D",
   "start_url":"./index.html",
   "scope":"./",
   "display":"standalone",
